@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="assets/logo.png">
+
+    <link rel="stylesheet" href="styles/give-take.css">
+
+    <title>SpendSpectrum - Give & Take</title>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav>
+
+        <div class="logo-container">
+            <img src="assets/logo.png"
+                 alt="Logo"
+                 style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+
+            <h1>SpendSpectrum</h1>
+        </div>
+
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <ul class="nav-links">
+
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+
+            <li>
+                <a href="about.html">About</a>
+            </li>
+
+            <li>
+                <a href="contact.html">Contact</a>
+            </li>
+
+            <li>
+                <a href="tracker.html">Tracker</a>
+            </li>
+
+            <li>
+                <a href="give-take.html" class="active">
+                    Give & Take
+                </a>
+            </li>
+
+            <li>
+                <a href="splitter.html">Splitter</a>
+            </li>
+
+        </ul>
+
+    </nav>
+
+
+    <!-- Page Heading -->
+
+    <h1 class="page-title">
+        Give <span>&</span> Take
+    </h1>
+
+    <p class="page-subtitle">
+        Keep track of money you borrow and lend
+    </p>
+
+
+    <div class="give-take-container">
+
+
+        <!-- ========================= -->
+        <!-- BORROW SECTION -->
+        <!-- ========================= -->
+
+        <section class="money-section">
+
+            <div class="section-heading borrow-heading">
+
+                <div>
+                    <h2>🤝 Borrow</h2>
+
+                    <p>
+                        Money you received from someone
+                    </p>
+                </div>
+
+                <div class="total-card">
+
+                    <small>Currently Borrowed</small>
+
+                    <strong id="borrowTotal">
+                        ₹0.00
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- Borrow Form -->
+
+            <div class="form-card">
+
+                <h3>Add Borrow</h3>
+
+                <div class="form-group">
+
+                    <label for="borrowPerson">
+                        Person
+                    </label>
+
+                    <input
+                        type="text"
+                        id="borrowPerson"
+                        placeholder="Enter person's name"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="borrowAmount">
+                        Amount (₹)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="borrowAmount"
+                        placeholder="Enter amount"
+                        min="0"
+                        step="0.01"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="borrowCategory">
+                        Category / Reason
+                    </label>
+
+                    <input
+                        type="text"
+                        id="borrowCategory"
+                        placeholder="e.g. Emergency, Personal, Travel"
+                    >
+
+                </div>
+
+
+                <button
+                    class="primary-button borrow-button"
+                    onclick="addBorrow()">
+
+                    Add Borrow
+
+                </button>
+
+            </div>
+
+
+            <!-- Borrow History -->
+
+            <div class="history-card">
+
+                <div class="history-header">
+
+                    <div>
+                        <h3>Borrow History</h3>
+
+                        <p>
+                            Your borrowed money records
+                        </p>
+                    </div>
+
+                    <select
+                        id="borrowFilter"
+                        onchange="renderBorrowRecords()">
+
+                        <option value="all">
+                            All
+                        </option>
+
+                        <option value="open">
+                            Open
+                        </option>
+
+                        <option value="closed">
+                            Closed
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Person</th>
+
+                                <th>Amount</th>
+
+                                <th>Reason</th>
+
+                                <th>Borrowed Date</th>
+
+                                <th>Status</th>
+
+                                <th>Close Date</th>
+
+                                <th>Action</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="borrowList"></tbody>
+
+                    </table>
+
+                </div>
+
+                <div
+                    id="borrowEmpty"
+                    class="empty-message">
+
+                    No borrow records found.
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ========================= -->
+        <!-- LEND SECTION -->
+        <!-- ========================= -->
+
+        <section class="money-section">
+
+            <div class="section-heading lend-heading">
+
+                <div>
+
+                    <h2>💸 Lend</h2>
+
+                    <p>
+                        Money you gave to someone
+                    </p>
+
+                </div>
+
+
+                <div class="total-card">
+
+                    <small>Currently Lent</small>
+
+                    <strong id="lendTotal">
+                        ₹0.00
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- Lend Form -->
+
+            <div class="form-card">
+
+                <h3>Add Lend</h3>
+
+
+                <div class="form-group">
+
+                    <label for="lendPerson">
+                        Person
+                    </label>
+
+                    <input
+                        type="text"
+                        id="lendPerson"
+                        placeholder="Enter person's name"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="lendAmount">
+                        Amount (₹)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="lendAmount"
+                        placeholder="Enter amount"
+                        min="0"
+                        step="0.01"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="lendCategory">
+                        Category / Reason
+                    </label>
+
+                    <input
+                        type="text"
+                        id="lendCategory"
+                        placeholder="e.g. Emergency, Personal, Travel"
+                    >
+
+                </div>
+
+
+                <button
+                    class="primary-button lend-button"
+                    onclick="addLend()">
+
+                    Add Lend
+
+                </button>
+
+            </div>
+
+
+            <!-- Lend History -->
+
+            <div class="history-card">
+
+                <div class="history-header">
+
+                    <div>
+
+                        <h3>Lend History</h3>
+
+                        <p>
+                            Your lent money records
+                        </p>
+
+                    </div>
+
+
+                    <select
+                        id="lendFilter"
+                        onchange="renderLendRecords()">
+
+                        <option value="all">
+                            All
+                        </option>
+
+                        <option value="open">
+                            Open
+                        </option>
+
+                        <option value="closed">
+                            Closed
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Person</th>
+
+                                <th>Amount</th>
+
+                                <th>Reason</th>
+
+                                <th>Lent Date</th>
+
+                                <th>Status</th>
+
+                                <th>Close Date</th>
+
+                                <th>Action</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="lendList"></tbody>
+
+                    </table>
+
+                </div>
+
+
+                <div
+                    id="lendEmpty"
+                    class="empty-message">
+
+                    No lend records found.
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <script src="scripts/give-take.js"></script>
+
+</body>
+
+</html>
